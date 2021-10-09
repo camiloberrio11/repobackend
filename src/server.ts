@@ -1,7 +1,7 @@
 import express from 'express';
-import { sumar } from './controllers/controller';
 import { connectDatabase } from './database/connection';
 import cors from 'cors';
+import { router } from './routes/routes';
 
 const app = express();
 const PORT : string|number = process.env.PORT || 5000;
