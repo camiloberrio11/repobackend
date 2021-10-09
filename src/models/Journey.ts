@@ -8,6 +8,4 @@ const JourneySchema = new Schema({
   },
 });
 
-
-
 export default model('Journey', JourneySchema);

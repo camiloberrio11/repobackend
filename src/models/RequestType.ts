@@ -9,6 +9,7 @@ const RequestTypeSchema = new Schema({
   Code: {
     type: String,
     required: true,
+    unique: true,
     uppercase: true
   }
 });
