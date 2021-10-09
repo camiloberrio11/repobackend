@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import Rol from './Rol';
 
 const RequestResponseSchema = new Schema({
   IdRequest: {

@@ -3,7 +3,6 @@ import DocumentType from './DocumentType';
 import Journey from './Journey';
 import RequestSubType from './RequestSubType';
 import RequestType from './RequestType';
-import Rol from './Rol';
 import User from './User';
 
 const RequestSchema = new Schema({
@@ -71,7 +70,10 @@ const RequestSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: DocumentType,
     required: true
-
+  },
+  IdSender: {
+    type: String,
+    required: true
   },
   NameSender: {
     type: String,
