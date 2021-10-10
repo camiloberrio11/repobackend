@@ -1,4 +1,6 @@
 import { Schema, model } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
+
 import DocumentType from './DocumentType';
 import Journey from './Journey';
 import RequestSubType from './RequestSubType';
@@ -92,5 +94,7 @@ const RequestSchema = new Schema({
     required: true
   }
 });
+
+RequestSchema.plugin(mongoosePaginate)
 
 export default model('Request', RequestSchema);
