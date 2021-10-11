@@ -8,7 +8,12 @@ import User from '../models/User';
 export async function getRequestByIdAndIdSender(req: any, res: any): Promise<ResponseHttpService> {
   try {
     const { code, idsender } = req.params;
-    const requestFind = await Request.findOne({ Id: code, IdSender: idsender });
+    const requestFind = await Request.findOne({ Id: code, IdSender: idsender })
+      .populate({ path: 'CodeRequestType', model: 'RequestType' })
+      .populate({ path: 'CodeRequestSubtype', model: 'RequestSubtype' })
+      .populate({ path: 'Origin', model: 'Journey' })
+      .populate({ path: 'Departure', model: 'Journey' })
+      .populate({ path: 'DocumentTypeSender', model: 'DocumentType' });
     return responseHttpService(200, requestFind, '', true, res);
   } catch (error: any) {
     return responseHttpService(500, null, error?.message, false, res);
@@ -23,7 +28,9 @@ export async function saveRequest(req: any, res: any): Promise<ResponseHttpServi
       consecutive = consecutiveCurrent?.docs?.Consecutive + 1;
     }
     const requestType: any = await RequestType.findOne({ _id: req?.body?.codeRequestType });
-    const requestSubtype: any = await RequestSubType.findOne({ _id: req?.body?.codeRequestSubtype });
+    const requestSubtype: any = await RequestSubType.findOne({
+      _id: req?.body?.codeRequestSubtype,
+    });
     const id = `${requestType?.Code}${requestSubtype?.Code}${consecutive}`;
     const requestNew = new Request({
       CodeRequestType: req?.body?.codeRequestType,
@@ -60,7 +67,7 @@ export async function getRequestOpen(req: any, res: any): Promise<ResponseHttpSe
     const query = {
       Finally: req?.body?.closed,
     };
-    
+
     const options = {
       limit: Number(req?.body?.limit || 10),
       page: Number(req?.body?.page || 1),

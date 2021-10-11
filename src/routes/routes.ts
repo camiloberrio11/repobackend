@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { getDocumentsTypes } from '../controllers/documentType';
 import { getJourneys } from '../controllers/journey';
 import { getRequestByIdAndIdSender, getRequestOpen, saveRequest } from '../controllers/request';
-import { responseRequest } from '../controllers/requestResponse';
+import { getResponseByIdRequest, responseRequest } from '../controllers/requestResponse';
 import { geSubtypeRequest } from '../controllers/requestSubtype';
 import { getTypeRequest } from '../controllers/requestType';
 import { getUsersInRoles } from '../controllers/user';
@@ -30,6 +30,8 @@ router.post('/request/status', getRequestOpen)
 
 // Response request
 router.post('/response/:idrequest', responseRequest)
+router.get('/response/:idrequest', getResponseByIdRequest)
+
 
 // Reports
 // router.post('/report/requestmonth', )

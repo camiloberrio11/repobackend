@@ -6,7 +6,11 @@ import RequestResponse from '../models/RequestResponse';
 export async function responseRequest(req: any, res: any): Promise<ResponseHttpService> {
   try {
     const { idrequest } = req.params;
-    const update = await Request.findOneAndUpdate({ _id: idrequest }, { Finally: true }, { new: true });
+    const update = await Request.findOneAndUpdate(
+      { _id: idrequest },
+      { Finally: true },
+      { new: true }
+    );
     const responseRequest = new RequestResponse({
       IdRequest: idrequest,
       Answer: req.body?.answer,
@@ -15,8 +19,18 @@ export async function responseRequest(req: any, res: any): Promise<ResponseHttpS
       AttachmentTwo: req?.body?.attachmentTwo,
       AttachmentThree: req?.body?.attachmentThree,
     });
-    await responseRequest.save()
+    await responseRequest.save();
     return responseHttpService(200, update, 'Actualizado', true, res);
+  } catch (error: any) {
+    return responseHttpService(500, null, error?.message, false, res);
+  }
+}
+
+export async function getResponseByIdRequest(req: any, res: any): Promise<ResponseHttpService> {
+  try {
+    const { idrequest } = req.params;
+    const response = await RequestResponse.findOne({ IdRequest: idrequest });
+    return responseHttpService(200, response, '', true, res);
   } catch (error: any) {
     return responseHttpService(500, null, error?.message, false, res);
   }
