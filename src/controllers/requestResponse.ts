@@ -35,3 +35,25 @@ export async function getResponseByIdRequest(req: any, res: any): Promise<Respon
     return responseHttpService(500, null, error?.message, false, res);
   }
 }
+
+export async function getAllInfoResponseAndRequest(
+  req: any,
+  res: any
+): Promise<ResponseHttpService> {
+  try {
+    const { idresponse } = req.params;
+    const response = await RequestResponse.findOne({ _id: idresponse }).populate({
+      path: 'IdRequest',
+      populate: [
+        { path: 'CodeRequestType', model: 'RequestType' },
+        { path: 'CodeRequestSubtype', model: 'RequestSubtype' },
+        { path: 'Origin', model: 'Journey' },
+        { path: 'Departure', model: 'Journey' },
+        { path: 'DocumentTypeSender', model: 'DocumentType' },
+      ],
+    });
+    return responseHttpService(200, response, '', true, res);
+  } catch (error: any) {
+    return responseHttpService(500, null, error?.message, false, res);
+  }
+}

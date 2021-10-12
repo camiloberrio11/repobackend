@@ -67,14 +67,33 @@ export async function getRequestOpen(req: any, res: any): Promise<ResponseHttpSe
     const query = {
       Finally: req?.body?.closed,
     };
-
-    const options = {
+    let options = {
       limit: Number(req?.body?.limit || 10),
       page: Number(req?.body?.page || 1),
       sort: { _id: -1 },
+      populate: [
+        { path: 'CodeRequestType', model: 'RequestType' },
+        { path: 'CodeRequestSubtype', model: 'RequestSubtype' },
+        { path: 'Origin', model: 'Journey' },
+        { path: 'Departure', model: 'Journey' },
+        { path: 'DocumentTypeSender', model: 'DocumentType' }
+      ],
     };
-    const response = await Request.paginate(query, options);
-    return responseHttpService(200, response, '', true, res);
+    let response: any;
+    let totalDocs = 0;
+    if (query?.Finally) {
+      response = await Request.paginate(query, options);
+      totalDocs = response?.totalDocs;
+      response = response?.docs;
+    } else {
+      response = await Request.find(query)
+      .populate({ path: 'CodeRequestType', model: 'RequestType' })
+      .populate({ path: 'CodeRequestSubtype', model: 'RequestSubtype' })
+      .populate({ path: 'Origin', model: 'Journey' })
+      .populate({ path: 'Departure', model: 'Journey' })
+      .populate({ path: 'DocumentTypeSender', model: 'DocumentType' });
+    }
+    return responseHttpService(200, response, `${totalDocs}`, true, res);
   } catch (error: any) {
     return responseHttpService(500, null, error?.message, false, res);
   }

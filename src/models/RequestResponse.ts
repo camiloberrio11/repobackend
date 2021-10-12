@@ -5,6 +5,7 @@ const RequestResponseSchema = new Schema({
   IdRequest: {
     type: Schema.Types.ObjectId,
     ref: Request,
+    unique: true
   },
   Answer: {
     type: String,
