@@ -4,6 +4,7 @@ import Request from '../models/Request';
 import RequestSubType from '../models/RequestSubType';
 import RequestType from '../models/RequestType';
 import User from '../models/User';
+import { sendEmail } from '../utils/sendEmail';
 
 export async function getRequestByIdAndIdSender(req: any, res: any): Promise<ResponseHttpService> {
   try {
@@ -56,6 +57,11 @@ export async function saveRequest(req: any, res: any): Promise<ResponseHttpServi
       PhoneSender: req?.body?.phoneSender,
     });
     await requestNew.save();
+    sendEmail(
+      req?.body?.emailSender,
+      'Se ha generado tu PQRS',
+      `Hemos generado con éxito tu PQRS, puedes consultar en nuestro sitio web en cualquier momento con el siguiente id ${id} y con tu número de identificación que registraste al momento de realizar la solicitud`
+    );
     return responseHttpService(200, null, 'Guardado exitosamente', true, res);
   } catch (error: any) {
     return responseHttpService(500, null, error?.message, false, res);
@@ -76,7 +82,7 @@ export async function getRequestOpen(req: any, res: any): Promise<ResponseHttpSe
         { path: 'CodeRequestSubtype', model: 'RequestSubtype' },
         { path: 'Origin', model: 'Journey' },
         { path: 'Departure', model: 'Journey' },
-        { path: 'DocumentTypeSender', model: 'DocumentType' }
+        { path: 'DocumentTypeSender', model: 'DocumentType' },
       ],
     };
     let response: any;
@@ -87,11 +93,11 @@ export async function getRequestOpen(req: any, res: any): Promise<ResponseHttpSe
       response = response?.docs;
     } else {
       response = await Request.find(query)
-      .populate({ path: 'CodeRequestType', model: 'RequestType' })
-      .populate({ path: 'CodeRequestSubtype', model: 'RequestSubtype' })
-      .populate({ path: 'Origin', model: 'Journey' })
-      .populate({ path: 'Departure', model: 'Journey' })
-      .populate({ path: 'DocumentTypeSender', model: 'DocumentType' });
+        .populate({ path: 'CodeRequestType', model: 'RequestType' })
+        .populate({ path: 'CodeRequestSubtype', model: 'RequestSubtype' })
+        .populate({ path: 'Origin', model: 'Journey' })
+        .populate({ path: 'Departure', model: 'Journey' })
+        .populate({ path: 'DocumentTypeSender', model: 'DocumentType' });
     }
     return responseHttpService(200, response, `${totalDocs}`, true, res);
   } catch (error: any) {
