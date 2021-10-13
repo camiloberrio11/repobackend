@@ -1,3 +1,4 @@
+import { fixMongoDate } from '../helpers/formatDates';
 import { responseHttpService } from '../helpers/responseHttp';
 import { ResponseHttpService } from '../interfaces/Http';
 import Request from '../models/Request';
@@ -15,7 +16,7 @@ export async function responseRequest(req: any, res: any): Promise<ResponseHttpS
     const responseRequest = new RequestResponse({
       IdRequest: idrequest,
       Answer: req.body?.answer,
-      AnswerDate: new Date().toISOString(),
+      AnswerDate:fixMongoDate(new Date().toISOString()),
       AttachmentOne: req?.body?.attachmentOne,
       AttachmentTwo: req?.body?.attachmentTwo,
       AttachmentThree: req?.body?.attachmentThree,
