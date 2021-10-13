@@ -2,11 +2,12 @@ import { responseHttpService } from '../helpers/responseHttp';
 import { ResponseHttpService } from '../interfaces/Http';
 import Request from '../models/Request';
 import RequestResponse from '../models/RequestResponse';
+import { sendEmail } from '../utils/sendEmail';
 
 export async function responseRequest(req: any, res: any): Promise<ResponseHttpService> {
   try {
     const { idrequest } = req.params;
-    const update = await Request.findOneAndUpdate(
+    const update: any = await Request.findOneAndUpdate(
       { _id: idrequest },
       { Finally: true },
       { new: true }
@@ -20,6 +21,12 @@ export async function responseRequest(req: any, res: any): Promise<ResponseHttpS
       AttachmentThree: req?.body?.attachmentThree,
     });
     await responseRequest.save();
+    sendEmail(
+      update?.EmailSender,
+      `Respuesta a tu solicitud ${update?.Id}`,
+      `Hemos actualizado el estado de tu solicitud, te invitamos a revisar la página web,
+      en la cual mediante tu codigo de solicitud y número de documento registrado podrás ver el nuevo estado de su solicitud. <br> <br> Recuerda que tu código de solicitud es <b>${update.Id}</b>`
+    );
     return responseHttpService(200, update, 'Actualizado', true, res);
   } catch (error: any) {
     return responseHttpService(500, null, error?.message, false, res);

@@ -60,9 +60,9 @@ export async function saveRequest(req: any, res: any): Promise<ResponseHttpServi
     sendEmail(
       req?.body?.emailSender,
       'Se ha generado tu PQRS',
-      `Hemos generado con éxito tu PQRS, puedes consultar en nuestro sitio web en cualquier momento con el siguiente id ${id} y con tu número de identificación que registraste al momento de realizar la solicitud`
+      `Hemos generado con éxito tu PQRS, puedes consultar en nuestro sitio web en cualquier momento con el siguiente id <b>${id}</b> y con tu número de identificación que registraste al momento de realizar la solicitud`
     );
-    return responseHttpService(200, null, 'Guardado exitosamente', true, res);
+    return responseHttpService(200, null, id, true, res);
   } catch (error: any) {
     return responseHttpService(500, null, error?.message, false, res);
   }
