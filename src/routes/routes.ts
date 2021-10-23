@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getDocumentsTypes } from '../controllers/documentType';
 import { getJourneys } from '../controllers/journey';
-import { getAmountByMonth, reportGeneralPqrs } from '../controllers/reports';
+import { getRequestByCodeSubtype, getRequestByCodeType, getRequestByMonthByYear, reportGeneralPqrs } from '../controllers/reports';
 import { getRequestByIdAndIdSender, getRequestOpen, saveRequest } from '../controllers/request';
 import { getAllInfoResponseAndRequest, getResponseByIdRequest, responseRequest } from '../controllers/requestResponse';
 import { geSubtypeRequest } from '../controllers/requestSubtype';
@@ -37,10 +37,9 @@ router.get('/response/all/:idresponse', getAllInfoResponseAndRequest)
 
 // Reports
 router.get('/report/general', reportGeneralPqrs)
-router.get('/report/month', getAmountByMonth)
-// router.post('/report/requestmonth', )
-// router.post('/report/requestuser', )
-// router.post('/report/requestmonth', )
+router.get('/report/date', getRequestByMonthByYear)
+router.get('/report/subtype', getRequestByCodeSubtype)
+router.get('/report/type', getRequestByCodeType)
 
 
 
