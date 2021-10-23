@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { login } from '../controllers/auth';
 import { getDocumentsTypes } from '../controllers/documentType';
 import { getJourneys } from '../controllers/journey';
 import { getRequestByCodeSubtype, getRequestByCodeType, getRequestByMonthByYear, reportGeneralPqrs } from '../controllers/reports';
@@ -41,7 +42,8 @@ router.get('/report/date', getRequestByMonthByYear)
 router.get('/report/subtype', getRequestByCodeSubtype)
 router.get('/report/type', getRequestByCodeType)
 
-
+// Login
+router.post('/login', login)
 
 
 
