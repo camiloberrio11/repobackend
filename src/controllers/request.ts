@@ -1,3 +1,4 @@
+import { fixMongoDate } from '../helpers/formatDates';
 import { responseHttpService } from '../helpers/responseHttp';
 import { ResponseHttpService } from '../interfaces/Http';
 import Request from '../models/Request';
@@ -43,7 +44,7 @@ export async function saveRequest(req: any, res: any): Promise<ResponseHttpServi
       AttachmentOne: req?.body?.attachmentOne,
       AttachmentTwo: req?.body?.attachmentTwo,
       AttachmentThree: req?.body?.attachmentThree,
-      EventDate: new Date().toISOString(),
+      EventDate: fixMongoDate(new Date().toISOString()),
       SideVehicle: req?.body?.sideVehicle,
       IdVehicle: req?.body?.idVehicle,
       Detail: req?.body?.detail,
@@ -100,6 +101,16 @@ export async function getRequestOpen(req: any, res: any): Promise<ResponseHttpSe
         .populate({ path: 'DocumentTypeSender', model: 'DocumentType' });
     }
     return responseHttpService(200, response, `${totalDocs}`, true, res);
+  } catch (error: any) {
+    return responseHttpService(500, null, error?.message, false, res);
+  }
+}
+
+export async function assignRequest(req: any, res: any): Promise<ResponseHttpService> {
+  try {
+    const { idrequest } = req.params;
+    await Request.findOneAndUpdate({ _id: idrequest }, { AssignedUser: req?.body?.userAssigned });
+    return responseHttpService(200, null, 'Actualizado', true, res);
   } catch (error: any) {
     return responseHttpService(500, null, error?.message, false, res);
   }
