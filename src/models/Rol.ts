@@ -4,7 +4,7 @@ const RolSchema = new Schema({
   Name: {
     type: String,
     required: true,
-    lowercase: true
+    uppercase: true
   },
 });
 
