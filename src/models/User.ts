@@ -17,6 +17,9 @@ const UserSchema = new Schema({
   Email: {
     type: String,
   },
+  Name: {
+    type: String
+  },
   Role: [
     {
       type: Schema.Types.ObjectId,

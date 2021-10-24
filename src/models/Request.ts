@@ -11,30 +11,28 @@ const RequestSchema = new Schema({
   CodeRequestType: {
     type: Schema.Types.ObjectId,
     ref: RequestType,
-    required: true
+    required: true,
   },
   CodeRequestSubtype: {
     type: Schema.Types.ObjectId,
     ref: RequestSubType,
-    required: true
+    required: true,
   },
   Consecutive: {
     type: Number,
-    required: true
+    required: true,
   },
   Id: {
     type: String,
-    required: true
+    required: true,
   },
-  AssignedUser: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: User,
-    },
-  ],
+  AssignedUser: {
+    type: Schema.Types.ObjectId,
+    ref: User,
+  },
   Finally: {
     type: Boolean,
-    default: false
+    default: false,
   },
   AttachmentOne: {
     type: String,
@@ -50,15 +48,15 @@ const RequestSchema = new Schema({
   },
   SideVehicle: {
     type: String,
-    maxlength: 3
+    maxlength: 3,
   },
   IdVehicle: {
     type: String,
-    maxlength: 6
+    maxlength: 6,
   },
   Detail: {
     type: String,
-    required: true
+    required: true,
   },
   Origin: {
     type: Schema.Types.ObjectId,
@@ -71,30 +69,30 @@ const RequestSchema = new Schema({
   DocumentTypeSender: {
     type: Schema.Types.ObjectId,
     ref: DocumentType,
-    required: true
+    required: true,
   },
   IdSender: {
     type: String,
-    required: true
+    required: true,
   },
   NameSender: {
     type: String,
-    required: true
+    required: true,
   },
   AddressSender: {
     type: String,
-    required: true
+    required: true,
   },
   EmailSender: {
     type: String,
-    required: true
+    required: true,
   },
   PhoneSender: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-RequestSchema.plugin(mongoosePaginate)
+RequestSchema.plugin(mongoosePaginate);
 
 export default model('Request', RequestSchema);

@@ -109,7 +109,7 @@ export async function getRequestOpen(req: any, res: any): Promise<ResponseHttpSe
 export async function assignRequest(req: any, res: any): Promise<ResponseHttpService> {
   try {
     const { idrequest } = req.params;
-    await Request.findOneAndUpdate({ _id: idrequest }, { AssignedUser: req?.body?.userAssigned });
+    await Request.findOneAndUpdate({ _id: idrequest }, { AssignedUser: req?.body?.assignedUser });
     return responseHttpService(200, null, 'Actualizado', true, res);
   } catch (error: any) {
     return responseHttpService(500, null, error?.message, false, res);

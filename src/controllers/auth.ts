@@ -20,6 +20,7 @@ export async function login(req: any, res: any): Promise<ResponseHttpService> {
         {
           Nameuser: req?.body?.username,
           Role: existPqrRol[0]?._id,
+          Name: `${loginExt?.first_name} ${loginExt?.last_name}`,
         },
         { upsert: true }
       );
