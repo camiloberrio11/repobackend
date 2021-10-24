@@ -15,20 +15,21 @@ export async function login(req: any, res: any): Promise<ResponseHttpService> {
         return responseHttpService(400, null, 'No tiene rol asociado', false, res);
       }
       const existAdmin = existPqrRol.find((item: any) => item?.Name?.includes('ADMIN'));
-      await User.findOneAndUpdate(
+      const user = await User.findOneAndUpdate(
         { Nameuser: req?.body?.username },
         {
           Nameuser: req?.body?.username,
           Role: existPqrRol[0]?._id,
           Name: `${loginExt?.first_name} ${loginExt?.last_name}`,
         },
-        { upsert: true }
+        { upsert: true, new: true }
       );
       return responseHttpService(
         200,
         {
           admin: !!existAdmin,
           manager: !existAdmin,
+          user: user?._id
         },
 
         '',

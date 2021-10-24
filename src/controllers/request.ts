@@ -71,9 +71,12 @@ export async function saveRequest(req: any, res: any): Promise<ResponseHttpServi
 
 export async function getRequestOpen(req: any, res: any): Promise<ResponseHttpService> {
   try {
-    const query = {
+    const query: any = {
       Finally: req?.body?.closed,
     };
+    if (!req?.body?.admin) {
+      query.AssignedUser = req?.body?.user;
+    }
     let options = {
       limit: Number(req?.body?.limit || 10),
       page: Number(req?.body?.page || 1),
