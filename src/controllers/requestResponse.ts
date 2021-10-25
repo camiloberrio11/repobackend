@@ -4,6 +4,7 @@ import { ResponseHttpService } from '../interfaces/Http';
 import Request from '../models/Request';
 import RequestResponse from '../models/RequestResponse';
 import { sendEmail } from '../utils/sendEmail';
+import {uploadFile} from '../utils/aws';
 
 export async function responseRequest(req: any, res: any): Promise<ResponseHttpService> {
   try {
@@ -13,13 +14,19 @@ export async function responseRequest(req: any, res: any): Promise<ResponseHttpS
       { Finally: true },
       { new: true }
     );
+    const infoRequest: any = await Request.findOne({_id: idrequest});
+    const folder = `${infoRequest?.Id}/respuesta`
+    const attachementOne = await uploadFile(req?.body?.attachmentOne, folder);
+    const attachementTwo = await uploadFile(req?.body?.attachmentTwo, folder);
+    const attachementThree = await uploadFile(req?.body?.attachmentThree, folder);
+
     const responseRequest = new RequestResponse({
       IdRequest: idrequest,
       Answer: req.body?.answer,
       AnswerDate:fixMongoDate(new Date().toISOString()),
-      AttachmentOne: req?.body?.attachmentOne,
-      AttachmentTwo: req?.body?.attachmentTwo,
-      AttachmentThree: req?.body?.attachmentThree,
+      AttachmentOne: attachementOne,
+      AttachmentTwo: attachementTwo,
+      AttachmentThree: attachementThree,
     });
     await responseRequest.save();
     sendEmail(

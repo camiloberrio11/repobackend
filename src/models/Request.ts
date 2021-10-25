@@ -25,6 +25,7 @@ const RequestSchema = new Schema({
   Id: {
     type: String,
     required: true,
+    unique: true
   },
   AssignedUser: {
     type: Schema.Types.ObjectId,

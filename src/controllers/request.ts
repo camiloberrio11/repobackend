@@ -28,8 +28,8 @@ export async function saveRequest(req: any, res: any): Promise<ResponseHttpServi
   try {
     let consecutive = 1;
     const consecutiveCurrent: any = await Request.findOne().sort({ Consecutive: -1 }).limit(1);
-    if (consecutiveCurrent?.docs) {
-      consecutive = consecutiveCurrent?.docs?.Consecutive + 1;
+    if (consecutiveCurrent) {
+      consecutive = +consecutiveCurrent?.Consecutive + 1;
     }
     const requestType: any = await RequestType.findOne({ _id: req?.body?.codeRequestType });
     const requestSubtype: any = await RequestSubType.findOne({
