@@ -1,10 +1,12 @@
 import { fixMongoDate } from '../helpers/formatDates';
 import { responseHttpService } from '../helpers/responseHttp';
+import { AttachmentFile } from '../interfaces/Attachment';
 import { ResponseHttpService } from '../interfaces/Http';
 import Request from '../models/Request';
 import RequestSubType from '../models/RequestSubType';
 import RequestType from '../models/RequestType';
 import User from '../models/User';
+import { uploadFile } from '../utils/aws';
 import { sendEmail } from '../utils/sendEmail';
 
 export async function getRequestByIdAndIdSender(req: any, res: any): Promise<ResponseHttpService> {
@@ -34,6 +36,10 @@ export async function saveRequest(req: any, res: any): Promise<ResponseHttpServi
       _id: req?.body?.codeRequestSubtype,
     });
     const id = `${requestType?.Code}${requestSubtype?.Code}${consecutive}`;
+    const file1 = await uploadFile(req?.body?.attachmentOne, id);
+    const file2 = await uploadFile(req?.body?.attachmentTwo, id);
+    const file3 = await uploadFile(req?.body?.attachmentThree, id);
+
     const requestNew = new Request({
       CodeRequestType: req?.body?.codeRequestType,
       CodeRequestSubtype: req?.body?.codeRequestSubtype,
@@ -41,9 +47,9 @@ export async function saveRequest(req: any, res: any): Promise<ResponseHttpServi
       Id: id,
       AssignedUser: null,
       Finally: false,
-      AttachmentOne: req?.body?.attachmentOne,
-      AttachmentTwo: req?.body?.attachmentTwo,
-      AttachmentThree: req?.body?.attachmentThree,
+      AttachmentOne: file1,
+      AttachmentTwo: file2,
+      AttachmentThree: file3,
       EventDate: fixMongoDate(new Date().toISOString()),
       SideVehicle: req?.body?.sideVehicle,
       IdVehicle: req?.body?.idVehicle,
