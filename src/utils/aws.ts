@@ -1,25 +1,17 @@
 import AWS, { AWSError } from 'aws-sdk';
-import { CreateBucketRequest } from 'aws-sdk/clients/lightsail';
 import {
   CreateBucketOutput,
-  Error,
-  GetObjectOutput,
-  GetObjectRequest,
   ManagedUpload,
   PutObjectRequest,
 } from 'aws-sdk/clients/s3';
-import fs from 'fs';
 import { AttachmentFile } from '../interfaces/Attachment';
 
-// Enter copied or downloaded access ID and secret key here
-const ID = 'AKIATD422TCWH4B3SNFK';
-const SECRET = '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';
-const BUCKET_NAME = 'test-flotaospina-pqrs';
+const BUCKET_NAME: any = process.env.BUCKETAWS;
 
 function connectionAwsBucket(): AWS.S3 {
   const s3 = new AWS.S3({
-    accessKeyId: ID,
-    secretAccessKey: SECRET,
+    accessKeyId: process.env.IDAWS,
+    secretAccessKey: process.env.SECRETAWS,
   });
   return s3;
 }

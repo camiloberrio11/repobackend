@@ -1,5 +1,5 @@
-const KEY_SENGRID = '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';
-const EMAIL_COMPANY = 'testfomzls@gmail.com';
+const KEY_SENGRID: any = process.env.KEYSENGRID;
+const EMAIL_COMPANY: any = process.env.EMAILSENGRID;
 
 import sgMail from '@sendgrid/mail';
 

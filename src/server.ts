@@ -2,6 +2,10 @@ import express from 'express';
 import { connectDatabase } from './database/connection';
 import cors from 'cors';
 import { router } from './routes/routes';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 
 const app = express();
 const PORT : string|number = process.env.PORT || 5000;
