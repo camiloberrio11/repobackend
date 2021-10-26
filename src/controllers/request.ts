@@ -27,7 +27,12 @@ export async function getRequestByIdAndIdSender(req: any, res: any): Promise<Res
 export async function saveRequest(req: any, res: any): Promise<ResponseHttpService> {
   try {
     let consecutive = 1;
-    const consecutiveCurrent: any = await Request.findOne().sort({ Consecutive: -1 }).limit(1);
+    const consecutiveCurrent: any = await Request.findOne({
+      CodeRequestTypereq: req?.body?.codeRequestType,
+      CodeRequestSubtype: req?.body?.codeRequestSubtype,
+    })
+      .sort({ Consecutive: -1 })
+      .limit(1);
     if (consecutiveCurrent) {
       consecutive = +consecutiveCurrent?.Consecutive + 1;
     }

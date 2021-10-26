@@ -79,14 +79,17 @@ const RequestSchema = new Schema({
   NameSender: {
     type: String,
     required: true,
+    uppercase: true
   },
   AddressSender: {
     type: String,
     required: true,
+    uppercase: true
   },
   EmailSender: {
     type: String,
     required: true,
+    lowercase: true
   },
   PhoneSender: {
     type: String,
