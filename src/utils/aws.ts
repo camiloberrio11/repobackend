@@ -6,7 +6,7 @@ import {
 } from 'aws-sdk/clients/s3';
 import { AttachmentFile } from '../interfaces/Attachment';
 
-const BUCKET_NAME: any = process.env.BUCKETAWS;
+
 
 function connectionAwsBucket(): AWS.S3 {
   const s3 = new AWS.S3({
@@ -17,6 +17,7 @@ function connectionAwsBucket(): AWS.S3 {
 }
 
 function createBucketStorage(): void {
+  const BUCKET_NAME: any = process.env.BUCKETAWS;
   const params = {
     Bucket: BUCKET_NAME,
     CreateBucketConfiguration: {
@@ -38,6 +39,7 @@ export async function uploadFile(file: AttachmentFile, idRequest: string): Promi
     return '';
   }
   const connectionS3 = connectionAwsBucket();
+  const BUCKET_NAME: any = process.env.BUCKETAWS;
   const params: PutObjectRequest = {
     Bucket: BUCKET_NAME,
     ContentType: file?.typefile,
@@ -49,7 +51,7 @@ export async function uploadFile(file: AttachmentFile, idRequest: string): Promi
     connectionS3.upload(params, (error: globalThis.Error, data: ManagedUpload.SendData) => {
       if (error) {
         console.log('Error upload image', error.message);
-        reject('');
+        reject(`Upload file error ${error.message}`);
       }
       resolve(data?.Location);
     });

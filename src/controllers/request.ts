@@ -76,7 +76,7 @@ export async function saveRequest(req: any, res: any): Promise<ResponseHttpServi
     );
     return responseHttpService(200, null, id, true, res);
   } catch (error: any) {
-    return responseHttpService(500, null, error?.message, false, res);
+    return responseHttpService(500, null, error, false, res);
   }
 }
 
