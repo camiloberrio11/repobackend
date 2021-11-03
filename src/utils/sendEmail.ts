@@ -1,9 +1,8 @@
-const KEY_SENGRID: any = process.env.KEYSENGRID;
-const EMAIL_COMPANY: any = process.env.EMAILSENGRID;
-
 import sgMail from '@sendgrid/mail';
 
 export function sendEmail(emailSend: string, subject: string, body: string): void {
+  const KEY_SENGRID: any = process.env.KEYSENGRID;
+  const EMAIL_COMPANY: any = process.env.EMAILSENGRID;
   sgMail.setApiKey(KEY_SENGRID);
   const msg = {
     to: emailSend, // Change to your recipient
